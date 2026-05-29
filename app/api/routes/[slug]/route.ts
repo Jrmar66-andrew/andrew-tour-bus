@@ -1,7 +1,7 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getDb } from '@/lib/mongodb';
+import { connectToDatabase } from '@/lib/mongodb';
 
 export async function GET(
   request: NextRequest,
@@ -9,7 +9,7 @@ export async function GET(
 ) {
   const { slug } = await params;
   try {
-    const db = await getDb();
+    const { db } = await connectToDatabase();
     const route = await db.collection('routes').findOne({ slug });
     if (!route) {
       return NextResponse.json({ error: 'Route not found' }, { status: 404 });

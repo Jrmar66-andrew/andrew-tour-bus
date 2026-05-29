@@ -1,11 +1,11 @@
 export const dynamic = 'force-dynamic';
 
 import { NextResponse } from 'next/server';
-import { getDb } from '@/lib/mongodb';
+import { connectToDatabase } from '@/lib/mongodb';
 
 export async function GET() {
   try {
-    const db = await getDb();
+    const { db } = await connectToDatabase();
     const routes = await db.collection('routes').find({}).toArray();
     return NextResponse.json(routes);
   } catch (error) {
